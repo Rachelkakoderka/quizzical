@@ -2,6 +2,7 @@ import { useState } from "react"
 import React from 'react'
 import { QuestionInterface } from "./interfaces"
 import { randomUUID } from "crypto"
+import { decode } from 'html-entities';
 
 interface Props {
     data : QuestionInterface
@@ -18,18 +19,21 @@ function generateAnswersArr() : string[] {
          randomNums.push(Math.floor(Math.random()*3));
     }
     const allAnsw: string[] = [...incorrect_answers, correct_answer];
-    const randomizedAnswers : string[] = randomNums.map((index) => allAnsw[index]);
+    const randomizedAnswers : string[] = randomNums.map((index) => decode(allAnsw[index]));
     
     return randomizedAnswers;
 
 }
 
-const answersElem = generateAnswersArr();
+const answersElem = generateAnswersArr().map(
+  (answ)=> {
+      return (<div className="answer">{answ}</div>)
+});
 
   return (
     <div className="question-block">
-        <div className="question">{question} </div>
-        <div className="answers">{ answersElem } </div>
+        <div className="question">{decode(question)} </div>
+        <div className="answers-box">{ answersElem } </div>
        
     </div>
   )

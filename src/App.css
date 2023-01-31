@@ -17,7 +17,7 @@ body {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  height: 90vh;
+  height: 100vh;
 } 
 
 .main {
@@ -26,9 +26,9 @@ body {
   align-items: center;
   justify-content: center;;
   background: #F5F7FB;
-  width: 40%;
-  height: 70%;
-  padding: 4rem;
+  width: 50%;
+  min-height: 60%;
+  padding: 2rem 4rem;
 }
 
 .initial-board {
@@ -49,14 +49,23 @@ body {
 
 .question-block {
   color: #2B283A;
-  margin: 15px;
+  margin: 20px;
+
 }
 .question {
   font-weight: 700;
 }
 
-.answers {
-  margin: 10px;
+.answers-box {
+  margin: 10px 0;
   display: flex;
   flex-direction: row;
+}
+.answer {
+  min-width: 60px;
+  margin: 0 5px;
+  padding: 3px 15px;
+  border: 0.794239px solid #4D5B9E;
+  border-radius: 7.94239px;
+  text-align: center;
 }
