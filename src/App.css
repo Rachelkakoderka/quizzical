@@ -62,7 +62,7 @@ body {
   flex-direction: row;
 }
 .answer {
-  min-width: 60px;
+  min-width: 100px;
   margin: 0 5px;
   padding: 3px 15px;
   border: 0.794239px solid #4D5B9E;

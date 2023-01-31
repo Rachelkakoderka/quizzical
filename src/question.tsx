@@ -14,10 +14,15 @@ console.log(props)
 const {category, correct_answer, difficulty, incorrect_answers, question,type} = props.data;
 
 function generateAnswersArr() : string[] {
-    const randomNums= [];
-    for (let i=0; i<4; i++) {
-         randomNums.push(Math.floor(Math.random()*3));
+    const randomNums : number[] = [];
+    
+     while (randomNums.length<4) {
+      let num = Math.floor(Math.random()*4)
+      if (!(randomNums.includes(num))){
+        randomNums.push(num);
+      }
     }
+    console.log(randomNums)
     const allAnsw: string[] = [...incorrect_answers, correct_answer];
     const randomizedAnswers : string[] = randomNums.map((index) => decode(allAnsw[index]));
     
@@ -26,7 +31,7 @@ function generateAnswersArr() : string[] {
 }
 
 const answersElem = generateAnswersArr().map(
-  (answ)=> {
+  (answ :any)=> {
       return (<div className="answer">{answ}</div>)
 });
 
