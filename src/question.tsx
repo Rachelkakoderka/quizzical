@@ -17,17 +17,17 @@ const {category, correct_answer, difficulty, incorrect_answers, question,type} =
 const {isChecked} = props;
 
 const [answersArr, setAnswersArr] = useState<string[]>([])
-const [chosenAnswer, setChosenAnswer] = useState<string>("nie ma")
+const [chosenAnswer, setChosenAnswer] = useState<string>("")
+const [keys, setKeys] = useState<string[]>([])
 
-function keysGen():string[] {
+function keysGen():void {
   let arr = []; 
   for (let i=0;i<5;i++){
     arr.push(nanoid())
   }
-  return arr;
+  return setKeys(arr);
  }
 
-const keys = keysGen()
 const ref = useRef(null)
 
 function generateAnswersArr() : void {
@@ -42,49 +42,43 @@ function generateAnswersArr() : void {
     //console.log(randomNums)
     const allAnsw: string[] = [...incorrect_answers, correct_answer];
     const randomizedAnswers : string[] = randomNums.map((index) => decode(allAnsw[index]));
-    //console.log(randomizedAnswers)
 
-     
-    return setAnswersArr(randomizedAnswers);
+    keysGen();
+    let arr:any = [];
+    randomizedAnswers.forEach((val, index)=> {
+      arr.push({text:val, id: keys[index] })
+      })
+       
+    return setAnswersArr(arr);
 
 }
 
 useEffect(generateAnswersArr,[])
+useEffect(keysGen, [])
 
 function handleClick(e: React.MouseEvent<HTMLDivElement, MouseEvent>) : void {
   e.preventDefault();
-  console.log(e.target, ref.current.className)
+  console.log(e.target, isChecked, chosenAnswer)
   let {className, id} = e.currentTarget;
 
-  
-
-   if (!isChecked) {
+  if (!isChecked) {
     if (chosenAnswer === id) {
       console.log("odznaczam")
-      className = "answer"
-    } else {
+      e.currentTarget.className = "answer"
+      setChosenAnswer("")
+    } else if (!chosenAnswer) {
       console.log("zaznaczam")
       
       e.currentTarget.className = "answer checked"
-      setChosenAnswer(prevState => id)
-      console.log(e.currentTarget.className)
+      setChosenAnswer(id)
+      console.log(e.currentTarget.id)
     }
-    //   if (className === "answer") { 
-    //     console.log(e.currentTarget.className)
-    //     e.currentTarget.className = "answer checked"
-    //     setChosenAnswer(id)
-    //   } else {
-    //     e.currentTarget.className = 
-    //   }
-    // } else {
-
-    // }   
-}
+   }
 }
 
 const answersElem = answersArr.map(
   (answ :any)=> {
-      return (<div ref={ref} id={nanoid()} key={nanoid()} className="answer" onClick={(e) => handleClick(e)}>{answ}</div>)
+      return (<div ref={ref} id={answ.id} key={answ.id} className="answer" onClick={(e) => handleClick(e)}>{answ.text}</div>)
 });
 
   return (
