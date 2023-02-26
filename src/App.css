@@ -69,3 +69,8 @@ body {
   border-radius: 7.94239px;
   text-align: center;
 }
+
+.checked {
+  background-color: #4D5B9E;
+  color: white;
+}

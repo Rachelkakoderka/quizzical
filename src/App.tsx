@@ -13,6 +13,8 @@ function App() {
       incorrect_answers: [""],
       question:"", 
       type:""}]);
+
+  const [isChecked, setIsChecked] = useState<boolean>(false);
   
   useEffect( () => {
           fetch("https://opentdb.com/api.php?amount=5&category=9&difficulty=easy&type=multiple")
@@ -21,8 +23,8 @@ function App() {
           }, [] );
   
   
-      console.log(questions[0])
-  const questionsElements : JSX.Element[] = questions.map((item) => (< Question data={item} />));
+      //console.log(questions[0])
+  const questionsElements : JSX.Element[] = questions.map((item) => (< Question data={item} isChecked={isChecked}/>));
   
     return (
       <div className="App">
