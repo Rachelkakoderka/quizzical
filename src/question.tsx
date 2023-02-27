@@ -15,7 +15,7 @@ export default function Question( props : Props) {
 const {category, correct_answer, difficulty, incorrect_answers, question,type} = props.data;
 const {isChecked} = props;
 
-const [answersArr, setAnswersArr] = useState<[Answer]>([{text:"", id:"", isChosen:false}])
+const [answersArr, setAnswersArr] = useState<Array<Answer>>([{text:"", id:"", isChosen:false}])
 const [chosenAnswer, setChosenAnswer] = useState<string>("")
 //const [keys, setKeys] = useState<string[]>([])
 //const ref = useRef(null)
@@ -49,7 +49,7 @@ function generateAnswersArr() : void {
     const allAnsw: string[] = [...incorrect_answers, correct_answer];
     const randomizedAnswers : string[] = randomNums.map((index) => decode(allAnsw[index]));
 
-    let arr: any = [];
+    let arr: any =[];
     randomizedAnswers.forEach((val, index)=> {
       arr.push({text:val, id: nanoid(), isChosen: false})
       })
@@ -62,54 +62,55 @@ function generateAnswersArr() : void {
 
 function handleClick(e: React.MouseEvent<HTMLDivElement, MouseEvent>) : void {
   e.preventDefault();
-  console.log(e.target, isChecked, chosenAnswer)
-  let {className, id} = e.currentTarget;
+  // console.log(e.target, isChecked, chosenAnswer)
+  let {id} = e.currentTarget;
 
   
   if (!isChecked) {
-    setChosenAnswer(id);
-    setAnswersArr(prevAnsArr => {
-      prevAnsArr.map(
-        (ansObj : Answer) => {
-          console.log(ansObj)
-          return ansObj.id === chosenAnswer ? {...ansObj, isChosen : true} : {...ansObj, isChosen: false}}
-      )
-    return prevAnsArr})
+
+      setChosenAnswer(id);
+      setAnswersArr(prevAnsArr => {
+        let newArr =  prevAnsArr.map(
+          (ansObj : Answer) => {
+          ansObj.id === chosenAnswer ? {
+            
+            return {...ansObj, isChosen : true}} 
+            : 
+            return {...ansObj, isChosen: false}}
+        )
+        return newArr
+     })
     console.log(answersArr)
-  } else {
-      console.log("zaznaczam")
-    
-      //setAnswersArr(prevAnswersArr => { prevAnswersArr.map(answ => {answ.id === id ? ({...answ, isChecked:true}) : answ} )})
-      setChosenAnswer(id)
-      console.log(e.currentTarget.id)
-    }
+  }
   
 }
-
-function showCorrectAns() {
-  console.log(answersArr)
-  
-}
-
 
 const answersElem = answersArr.map(
   (answ :any)=> {
       return (<div 
-                    //ref={ref} 
-                   id={answ.id} 
-                   key={answ.id} 
-                   className={ isChecked ?
-                     (answ.text === correct_answer ? "answer correct" : " answer incorrect" ) 
+                  id={answ.id} 
+                  key={answ.id} 
+                  className={ isChecked 
+                    ? 
+                    (answ.isChosen ? 
+                        ( answ.text === correct_answer ? "correct answer" : "incorrect answer")
+                        :
+                        (answ.text === correct_answer ? "correct answer" : "answer")
+                    ) 
                     :
-                    (answ.isChosen ? "checked answer" : "answer")
+                    ( answ.isChosen ?
+                      "answer checked" :
+                      "answer"
+                    )                   
                   }
                   onClick={(e) => handleClick(e)}>
                   {answ.text}</div>)
 });
 
 
+
 useEffect(generateAnswersArr,[])
-//useEffect(showCorrectAns, [isChecked])
+console.log("rerendered")
 
   return (
     <div className="question-block">

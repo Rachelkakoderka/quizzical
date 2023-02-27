@@ -76,8 +76,10 @@ body {
 }
 
 .correct {
-  background-color: green;
+  background-color: rgb(123, 194, 123);
+  color:white;
 }
 .incorrect {
-  background-color: red ;
+  background-color: rgb(230, 127, 127) ;
+  color:white;
 }
