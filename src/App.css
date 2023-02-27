@@ -29,6 +29,7 @@ body {
   width: 50%;
   min-height: 60%;
   padding: 2rem 4rem;
+  border-radius: 3px;
 }
 
 .initial-board {
@@ -45,6 +46,10 @@ body {
   border: none;
   width: 150px;
   height: 50px;
+}
+
+.after-game {
+  
 }
 
 .question-block {
@@ -71,15 +76,18 @@ body {
 }
 
 .checked {
-  background-color: #4D5B9E;
+  background-color: #7484d1;
+  border-color: #7484d1;
   color: white;
 }
 
 .correct {
+  border-color: rgb(123, 194, 123);
   background-color: rgb(123, 194, 123);
   color:white;
 }
 .incorrect {
+  border-color: rgb(230, 127, 127) ;;
   background-color: rgb(230, 127, 127) ;
   color:white;
 }

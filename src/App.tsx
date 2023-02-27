@@ -1,8 +1,8 @@
-import React, {useState, useEffect} from 'react';
+import {useState, useEffect} from 'react';
 import './App.css';
 import {QuestionInterface} from "./interfaces"
 import Question from './question';
-import { decode } from 'html-entities';
+
 
 function App() {
 
@@ -18,24 +18,32 @@ function App() {
   
   useEffect( () => {
           fetch("https://opentdb.com/api.php?amount=5&category=9&difficulty=easy&type=multiple")
-          .then(response => response.json())
+          .then(response =>response.json())
           .then(quiz => setQuestions(quiz.results))
-          }, [] );
+          }, [isStarted] );
   
   
-      //console.log(questions[0])
+  console.log(questions)    
   const questionsElements : JSX.Element[] = questions.map((item) => (< Question data={item} isChecked={isChecked}/>));
   
     return (
       <div className="App">
       <div className="main">
         
-       {/* {decode(questions[0].question)} */}
+       
          {isStarted 
          ? 
          (<div className='game-board'>
          {questionsElements}
-         <button className='btn in-game' onClick={() => setIsChecked(prevState=>!prevState)}>Check answers</button>
+         
+         {isChecked ? 
+            <button className='btn after-game' onClick={() => {
+              setIsStarted(false)
+              setIsChecked(false)
+            }}>Play again</button>
+          :
+            <button className='btn in-game' onClick={() => setIsChecked(true)}>Check answers</button>
+          }
          </div>)       
          : 
          (<div className='initial-board'>

@@ -10,24 +10,13 @@ interface Props {
 }
 
 export default function Question( props : Props) {
-//console.log(props)
+
 
 const {category, correct_answer, difficulty, incorrect_answers, question,type} = props.data;
 const {isChecked} = props;
 
 const [answersArr, setAnswersArr] = useState<Array<Answer>>([{text:"", id:"", isChosen:false}])
 const [chosenAnswer, setChosenAnswer] = useState<string>("")
-//const [keys, setKeys] = useState<string[]>([])
-//const ref = useRef(null)
-
-// function keysGen():void {
-//   let arr = []; 
-//   for (let i=0;i<4;i++){
-//     arr.push(nanoid())
-//   }
-//   console.log("generated keys: ", arr )
-//   return setKeys(arr);
-//  }
 
 
 function generateRandomNums() {
@@ -48,6 +37,7 @@ function generateAnswersArr() : void {
    
     const allAnsw: string[] = [...incorrect_answers, correct_answer];
     const randomizedAnswers : string[] = randomNums.map((index) => decode(allAnsw[index]));
+    console.log(question, "Odpowiedzi:  ", allAnsw)
 
     let arr: any =[];
     randomizedAnswers.forEach((val, index)=> {
@@ -62,28 +52,33 @@ function generateAnswersArr() : void {
 
 function handleClick(e: React.MouseEvent<HTMLDivElement, MouseEvent>) : void {
   e.preventDefault();
-  // console.log(e.target, isChecked, chosenAnswer)
   let {id} = e.currentTarget;
-
   
   if (!isChecked) {
+    console.log(chosenAnswer);
+    setChosenAnswer(id);
+    console.log(chosenAnswer);
 
-      setChosenAnswer(id);
-      setAnswersArr(prevAnsArr => {
+    setAnswersArr(prevAnsArr => {
         let newArr =  prevAnsArr.map(
           (ansObj : Answer) => {
-          ansObj.id === chosenAnswer ? {
-            
-            return {...ansObj, isChosen : true}} 
-            : 
-            return {...ansObj, isChosen: false}}
-        )
+            if (ansObj.id === id) {
+              console.log(chosenAnswer)
+              return {...ansObj, isChosen : true}
+            }else {
+              return {...ansObj, isChosen: false}
+            } 
+          }
+        );
         return newArr
-     })
-    console.log(answersArr)
+      }
+      );
+   //console.log(answersArr)
   }
   
 }
+useEffect(generateAnswersArr,[])
+//console.log("rerendered")
 
 const answersElem = answersArr.map(
   (answ :any)=> {
@@ -106,12 +101,7 @@ const answersElem = answersArr.map(
                   onClick={(e) => handleClick(e)}>
                   {answ.text}</div>)
 });
-
-
-
-useEffect(generateAnswersArr,[])
-console.log("rerendered")
-
+//console.log(question," + ",  correct_answer, " + ", incorrect_answers,)
   return (
     <div className="question-block">
         <div className="question">{decode(question)} </div>
