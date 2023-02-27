@@ -1,4 +1,4 @@
-import {useState, useEffect} from 'react';
+import {useState, useEffect, SyntheticEvent} from 'react';
 import './App.css';
 import {QuestionInterface} from "./interfaces"
 import Question from './question';
@@ -16,16 +16,19 @@ function App() {
 
   const [isChecked, setIsChecked] = useState<boolean>(false);
   
-  useEffect( () => {
-          fetch("https://opentdb.com/api.php?amount=5&category=9&difficulty=easy&type=multiple")
-          .then(response =>response.json())
-          .then(quiz => setQuestions(quiz.results))
-          }, [isStarted] );
-  
-  
+   
   console.log(questions)    
   const questionsElements : JSX.Element[] = questions.map((item) => (< Question data={item} isChecked={isChecked}/>));
   
+
+  function startGame(e:SyntheticEvent) {
+    e.preventDefault()
+    setIsStarted(true);
+    fetch("https://opentdb.com/api.php?amount=5&category=9&difficulty=easy&type=multiple")
+          .then(response =>response.json())
+          .then(quiz => setQuestions(quiz.results))
+    }
+
     return (
       <div className="App">
       <div className="main">
@@ -49,7 +52,7 @@ function App() {
          (<div className='initial-board'>
           <h1>Quizzical</h1>
           <h2>Test your general knowledge!</h2>
-          <button className='btn start-game' onClick={()=> setIsStarted(true)}>Start Quiz</button>
+          <button className='btn start-game' onClick={startGame}>Start Quiz</button>
           </div>)
           } 
       </div>
