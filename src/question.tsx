@@ -1,6 +1,6 @@
 import { useEffect, useState, useRef } from "react"
 import React from 'react'
-import { QuestionInterface } from "./interfaces"
+import { QuestionInterface, Answer } from "./interfaces"
 import { decode } from 'html-entities';
 import { nanoid } from "nanoid";
 
@@ -15,20 +15,21 @@ export default function Question( props : Props) {
 const {category, correct_answer, difficulty, incorrect_answers, question,type} = props.data;
 const {isChecked} = props;
 
-const [answersArr, setAnswersArr] = useState<[{}]>([{}])
-const [chosenAnswer, setChosenAnswer] = useState<string[]>([""
-])
-const [keys, setKeys] = useState<string[]>([])
-const ref = useRef(null)
+const [answersArr, setAnswersArr] = useState<[Answer]>([{text:"", id:"", isChosen:false}])
+const [chosenAnswer, setChosenAnswer] = useState<string>("")
+//const [keys, setKeys] = useState<string[]>([])
+//const ref = useRef(null)
 
-function keysGen():void {
-  let arr = []; 
-  for (let i=0;i<4;i++){
-    arr.push(nanoid())
-  }
-  console.log("generated keys: ", arr )
-  return setKeys(arr);
- }
+// function keysGen():void {
+//   let arr = []; 
+//   for (let i=0;i<4;i++){
+//     arr.push(nanoid())
+//   }
+//   console.log("generated keys: ", arr )
+//   return setKeys(arr);
+//  }
+
+
 function generateRandomNums() {
   const randomNums : number[] = [];
     
@@ -48,11 +49,11 @@ function generateAnswersArr() : void {
     const allAnsw: string[] = [...incorrect_answers, correct_answer];
     const randomizedAnswers : string[] = randomNums.map((index) => decode(allAnsw[index]));
 
-    let arr:any = [];
+    let arr: any = [];
     randomizedAnswers.forEach((val, index)=> {
       arr.push({text:val, id: nanoid(), isChosen: false})
       })
-       console.log(arr)
+       //console.log(arr)
     return setAnswersArr(arr);
 
 }
@@ -64,14 +65,22 @@ function handleClick(e: React.MouseEvent<HTMLDivElement, MouseEvent>) : void {
   console.log(e.target, isChecked, chosenAnswer)
   let {className, id} = e.currentTarget;
 
-    
+  
   if (!isChecked) {
-    setChosenAnswer([id]});
+    setChosenAnswer(id);
+    setAnswersArr(prevAnsArr => {
+      prevAnsArr.map(
+        (ansObj : Answer) => {
+          console.log(ansObj)
+          return ansObj.id === chosenAnswer ? {...ansObj, isChosen : true} : {...ansObj, isChosen: false}}
+      )
+    return prevAnsArr})
+    console.log(answersArr)
   } else {
       console.log("zaznaczam")
     
       //setAnswersArr(prevAnswersArr => { prevAnswersArr.map(answ => {answ.id === id ? ({...answ, isChecked:true}) : answ} )})
-      setChosenAnswer([id])
+      setChosenAnswer(id)
       console.log(e.currentTarget.id)
     }
   
@@ -85,12 +94,16 @@ function showCorrectAns() {
 
 const answersElem = answersArr.map(
   (answ :any)=> {
-      return (<div ref={ref} 
+      return (<div 
+                    //ref={ref} 
                    id={answ.id} 
                    key={answ.id} 
-                   className={answ.isChosen ? "checked answer" : "answer"}
-                    
-                   onClick={(e) => handleClick(e)}>
+                   className={ isChecked ?
+                     (answ.text === correct_answer ? "answer correct" : " answer incorrect" ) 
+                    :
+                    (answ.isChosen ? "checked answer" : "answer")
+                  }
+                  onClick={(e) => handleClick(e)}>
                   {answ.text}</div>)
 });
 

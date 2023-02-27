@@ -74,3 +74,10 @@ body {
   background-color: #4D5B9E;
   color: white;
 }
+
+.correct {
+  background-color: green;
+}
+.incorrect {
+  background-color: red ;
+}

@@ -6,3 +6,10 @@ export interface QuestionInterface {
     question:string, 
     type:string
 }
+
+export interface Answer {
+    text:string;
+    id: string;
+    isChosen: boolean
+
+}
