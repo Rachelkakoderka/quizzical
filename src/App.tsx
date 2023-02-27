@@ -35,7 +35,7 @@ function App() {
          ? 
          (<div className='game-board'>
          {questionsElements}
-         <button className='btn in-game' onClick={() => console.log("clicked")}>Check answers</button>
+         <button className='btn in-game' onClick={() => setIsChecked(prevState=>!prevState)}>Check answers</button>
          </div>)       
          : 
          (<div className='initial-board'>
