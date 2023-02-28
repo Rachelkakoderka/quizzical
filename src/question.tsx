@@ -24,15 +24,14 @@ export default function Question( props : Props) {
   const [chosenAnswer, setChosenAnswer] = useState<string>("")
 
 
+
  function handleClick(e: React.MouseEvent<HTMLDivElement, MouseEvent>) : void {
     e.preventDefault();
     let {id} = e.currentTarget;
     
     if (!isChecked) {
-      console.log(chosenAnswer);
       setChosenAnswer(id);
-      console.log(chosenAnswer);
-  
+       
       setAnswersArr(prevAnsArr => {
           let newArr =  prevAnsArr.map(
             (ansObj : Answer) => {
@@ -46,27 +45,26 @@ export default function Question( props : Props) {
           );
           return newArr
         }
-        );
-     //console.log(answersArr)
+      );
     }
   }
 
   function generateRandomNums() {
-    const randomNums : number[] = [];
     
-    while (randomNums.length<4) {
+    const randomNumsArr : number[] = [];
+    
+    while (randomNumsArr.length<4) {
     let num = Math.floor(Math.random()*4)
-    if (!(randomNums.includes(num))){
-      randomNums.push(num);
+    if (!(randomNumsArr.includes(num))){
+      randomNumsArr.push(num);
     }
     }
-  return randomNums;
+  return randomNumsArr;
   }
 
   
     function generateAnswersArr() : [Answer] {
-        const randomNums = generateRandomNums();
-      
+      const randomNums = generateRandomNums();
         const allAnsw: string[] = [...incorrect_answers, correct_answer];
         const randomizedAnswers : string[] = randomNums.map((index) => decode(allAnsw[index]));
         
@@ -74,16 +72,14 @@ export default function Question( props : Props) {
         randomizedAnswers.forEach((val, index)=> {
           arr.push({text:val, id: nanoid(), isChosen: false})
           })
-          console.log("New set of answers generated")
+          
         return arr;
     }
 
  
 
   const answersElem = answersArr.map(
-      (answ :any)=> {
-        console.log(answersArr)
-          return (<div 
+      (answ :any)=> {return (<div 
                       id={answ.id} 
                       key={answ.id} 
                       className={ isChecked 
@@ -103,7 +99,10 @@ export default function Question( props : Props) {
                       {answ.text}</div>)
     });
 
-    useEffect(() =>{setAnswersArr(generateAnswersArr)},[])
+    useEffect(() =>{
+      setAnswersArr(generateAnswersArr())    
+    },[question])
+    
   
   console.log("Question component rendered")
 

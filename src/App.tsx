@@ -20,7 +20,7 @@ function App() {
    
   //console.log(questions)
       
-  const questionsElements : JSX.Element[] = questions.map((item,index) => (< Question key={nanoid()} data={item} isChecked={isChecked}/>));
+  const questionsElements : JSX.Element[] = questions.map((item,index) => (< Question key={index} data={item} isChecked={isChecked}/>));
   
 
   function startGame(e:SyntheticEvent) {
@@ -48,7 +48,7 @@ function App() {
          {isStarted 
          ? 
          (<div className='game-board'>
-         {questionsElements}
+         {questions[0].category ? questionsElements : ""}
          
          {isChecked ? 
             <button className='btn after-game' onClick={() => {
