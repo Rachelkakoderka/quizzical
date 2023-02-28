@@ -2,6 +2,7 @@ import {useState, useEffect, SyntheticEvent} from 'react';
 import './App.css';
 import {QuestionInterface} from "./interfaces"
 import Question from './question';
+import { nanoid } from 'nanoid';
 
 
 function App() {
@@ -17,17 +18,27 @@ function App() {
   const [isChecked, setIsChecked] = useState<boolean>(false);
   
    
-  console.log(questions)    
-  const questionsElements : JSX.Element[] = questions.map((item) => (< Question data={item} isChecked={isChecked}/>));
+  //console.log(questions)
+      
+  const questionsElements : JSX.Element[] = questions.map((item,index) => (< Question key={nanoid()} data={item} isChecked={isChecked}/>));
   
 
   function startGame(e:SyntheticEvent) {
     e.preventDefault()
     setIsStarted(true);
-    fetch("https://opentdb.com/api.php?amount=5&category=9&difficulty=easy&type=multiple")
-          .then(response =>response.json())
-          .then(quiz => setQuestions(quiz.results))
+    
     }
+
+    console.log("App component rendered")
+
+    useEffect(() => {
+      if (isStarted)
+      {
+        fetch("https://opentdb.com/api.php?amount=5&category=9&difficulty=easy&type=multiple")
+        .then(response =>response.json())
+        .then(quiz => setQuestions(quiz.results))
+      }},
+      [isStarted])
 
     return (
       <div className="App">
@@ -45,7 +56,8 @@ function App() {
               setIsChecked(false)
             }}>Play again</button>
           :
-            <button className='btn in-game' onClick={() => setIsChecked(true)}>Check answers</button>
+            <button className='btn in-game' onClick={(e) => {
+              setIsChecked(true)}}>Check answers</button>
           }
          </div>)       
          : 
