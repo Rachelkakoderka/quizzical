@@ -19,23 +19,27 @@ function App() {
   
    
     
-  const questionsElements : JSX.Element[] = questions.map((item,index) => (< Question key={index} data={item} isChecked={isChecked}/>));
+  const questionsElements : JSX.Element[] = questions.map((item,index) => (< Question key={index} data={item} isChecked={isChecked} isStarted={isStarted}/>));
   
 
-  function startGame(e:SyntheticEvent) {
-    e.preventDefault()
-    setIsStarted(true);
+  function startGame() {
+    fetch("https://opentdb.com/api.php?amount=5&category=9&difficulty=easy&type=multiple")
+      .then(response =>response.json())
+      .then(quiz => setQuestions(quiz.results))
+
+    //setTimeout(()=>{
+      setIsStarted(true)
+      setIsChecked(false)
+    //},500) 
     }
 
     console.log("App component rendered")
 
-    useEffect(() => {
-      
-        fetch("https://opentdb.com/api.php?amount=5&category=9&difficulty=easy&type=multiple")
-        .then(response =>response.json())
-        .then(quiz => setQuestions(quiz.results))
-      },
-      [])
+    // useEffect(()=> {
+    //   fetch("https://opentdb.com/api.php?amount=5&category=9&difficulty=easy&type=multiple")
+    //     .then(response =>response.json())
+    //     .then(quiz => setQuestions(quiz.results))
+    // },[])
    
 
     return (
@@ -43,7 +47,7 @@ function App() {
       <div className="main">
         
        
-         {isStarted 
+         {isStarted && questions[0].category
          ? 
          (<div className='game-board'>
             {questionsElements}
@@ -54,10 +58,7 @@ function App() {
 
               <p>{/* {isChecked ? "You scored: " : "" } */}</p>
 
-              <button className={isChecked ? 'btn after-game' : 'btn after-game hidden'} onClick={() => {
-                setIsStarted(false)
-                setIsChecked(false)
-              }}>Play again</button>  
+              <button className={isChecked ? 'btn after-game' : 'btn after-game hidden'} onClick={startGame}>Play again</button>  
 
           
             </div>

@@ -6,12 +6,13 @@ import { nanoid } from "nanoid";
 
 interface Props {
     data : QuestionInterface,
-    isChecked:boolean
+    isChecked:boolean,
+    isStarted:boolean
 }
 
 export default function Question( props : Props) {
   const {category, correct_answer, difficulty, incorrect_answers, question,type} = props.data;
-  const {isChecked} = props;
+  const {isChecked, isStarted} = props;
 
   //State
   const [answersArr, setAnswersArr] = useState<Array<Answer>>(
@@ -82,7 +83,7 @@ export default function Question( props : Props) {
       (answ :any)=> {return (<div 
                       id={answ.id} 
                       key={answ.id} 
-                      className={ isChecked 
+                      className={  isChecked 
                         ? 
                         (answ.isChosen ? 
                             ( answ.text === correct_answer ? "correct answer" : "incorrect answer")
@@ -107,12 +108,10 @@ export default function Question( props : Props) {
   console.log("Question component rendered")
 
   return (
-    <div className="question-block">
-      <div className="question">{decode(question)} </div>
-       <div className="answers-box">{ answersElem } </div>
-       
-    </div>
-  )
-
-}
+      <div className="question-block">
+        <div className="question">{decode(question)} </div>
+        <div className="answers-box">{ answersElem } </div>
+      </div>
+   )
+  }
 
