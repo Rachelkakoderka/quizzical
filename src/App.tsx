@@ -48,15 +48,18 @@ function App() {
          (<div className='game-board'>
             {questionsElements}
             <div className='btn-box'>
-            {isChecked ? 
-              <button className='btn after-game' onClick={() => {
+              
+              <button className={isChecked ? 'btn in-game hidden' : 'btn in-game '}  onClick={(e) => {
+                setIsChecked(true)}}>Check answers</button>
+
+              <p>{/* {isChecked ? "You scored: " : "" } */}</p>
+
+              <button className={isChecked ? 'btn after-game' : 'btn after-game hidden'} onClick={() => {
                 setIsStarted(false)
                 setIsChecked(false)
-              }}>Play again</button>
-            :
-              <button className='btn in-game' onClick={(e) => {
-                setIsChecked(true)}}>Check answers</button>
-            }
+              }}>Play again</button>  
+
+          
             </div>
          </div>)
 

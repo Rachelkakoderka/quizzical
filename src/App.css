@@ -58,6 +58,11 @@ body {
   grid-column-start: 3/4;
 }
 
+.hidden {
+  visibility: hidden;
+
+}
+
 .question-block {
   color: #2B283A;
   margin: 20px;
