@@ -3,6 +3,10 @@
 * {
   box-sizing: border-box;
 }
+a {
+  text-decoration: none;
+  color:#2B283A
+}
 
 body {
   background-color: #2B283A;
@@ -20,15 +24,25 @@ body {
   height: 100vh;
 } 
 
+.main-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content:space-between ;
+  background: #F5F7FB;
+  width: 50%;
+  min-height: 70%;
+  border-radius: 3px;
+  padding: 2rem;
+}
+
 .main {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;;
   background: #F5F7FB;
-  width: 50%;
   min-height: 70%;
-  padding: 2rem 4rem;
   border-radius: 3px;
 }
 

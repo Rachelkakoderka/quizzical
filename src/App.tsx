@@ -55,8 +55,10 @@ function App() {
     // }, [isChecked]);
 
     return (
-      <div className="App">
-      <div className="main">
+    <div className="App">
+      <div className='main-container'>
+        
+        <div className="main">
         
        
          {isStarted && questions[0].category
@@ -85,6 +87,10 @@ function App() {
           <button className='btn start-game' onClick={startGame}>Start Quiz</button>
           </div>)
           } 
+
+         
+          </div>
+          <p>Created by <a href='www.aleksandragalach.link' target="_blank">Aleksandra Gałach</a> 2023</p>
       </div>
       </div>
     );
