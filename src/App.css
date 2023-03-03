@@ -27,13 +27,16 @@ body {
   justify-content: center;;
   background: #F5F7FB;
   width: 50%;
-  min-height: 60%;
+  min-height: 70%;
   padding: 2rem 4rem;
   border-radius: 3px;
 }
 
 .initial-board {
   text-align: center;
+}
+.game-board {
+  padding:10px;
 }
 .btn {
   
@@ -64,6 +67,7 @@ body {
 }
 
 .question-block {
+  min-height: 12%;
   color: #2B283A;
   margin: 20px;
 

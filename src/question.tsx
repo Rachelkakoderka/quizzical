@@ -1,18 +1,18 @@
 import { useEffect, useState, useRef } from "react"
 import React from 'react'
 import { QuestionInterface, Answer } from "./interfaces"
-import { decode } from 'html-entities';
-import { nanoid } from "nanoid";
+
 
 interface Props {
     data : QuestionInterface,
     isChecked:boolean,
-    isStarted:boolean
+    isStarted:boolean,
+    keyId: string
 }
 
 export default function Question( props : Props) {
   const {category, correct_answer, difficulty, incorrect_answers, question,type} = props.data;
-  const {isChecked, isStarted} = props;
+  const {isChecked, keyId} = props;
 
   //State
   const [answersArr, setAnswersArr] = useState<Array<Answer>>(
@@ -67,11 +67,11 @@ export default function Question( props : Props) {
     function generateAnswersArr() : [Answer] {
       const randomNums = generateRandomNums();
         const allAnsw: string[] = [...incorrect_answers, correct_answer];
-        const randomizedAnswers : string[] = randomNums.map((index) => decode(allAnsw[index]));
+        const randomizedAnswers : string[] = randomNums.map((index) => allAnsw[index]);
         
         let arr: any =[];
         randomizedAnswers.forEach((val, index)=> {
-          arr.push({text:val, id: nanoid(), isChosen: false})
+          arr.push({text:val, id: keyId+index, isChosen: false})
           })
           
         return arr;
@@ -83,7 +83,7 @@ export default function Question( props : Props) {
       (answ :any)=> {return (<div 
                       id={answ.id} 
                       key={answ.id} 
-                      className={  isChecked 
+                      className={  (isChecked)
                         ? 
                         (answ.isChosen ? 
                             ( answ.text === correct_answer ? "correct answer" : "incorrect answer")
@@ -106,10 +106,11 @@ export default function Question( props : Props) {
     
   
   console.log("Question component rendered")
+  console.log(answersElem)
 
   return (
       <div className="question-block">
-        <div className="question">{decode(question)} </div>
+        <div className="question">{(question)} </div>
         <div className="answers-box">{ answersElem } </div>
       </div>
    )

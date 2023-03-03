@@ -2,7 +2,8 @@ import {useState, useEffect, SyntheticEvent} from 'react';
 import './App.css';
 import {QuestionInterface} from "./interfaces"
 import Question from './question';
-import { nanoid } from 'nanoid';
+import { decode } from 'html-entities';
+
 
 
 function App() {
@@ -19,27 +20,29 @@ function App() {
   
    
     
-  const questionsElements : JSX.Element[] = questions.map((item,index) => (< Question key={index} data={item} isChecked={isChecked} isStarted={isStarted}/>));
+  const questionsElements : JSX.Element[] = questions.map((item,index) => 
+  (< Question key={`question ${index}`} keyId={`question${index}`} data={item} isChecked={isChecked} isStarted={isStarted}/>));
   
 
   function startGame() {
     fetch("https://opentdb.com/api.php?amount=5&category=9&difficulty=easy&type=multiple")
       .then(response =>response.json())
-      .then(quiz => setQuestions(quiz.results))
-
-    //setTimeout(()=>{
+      .then(quiz => 
+        { let newQuestions = quiz.results.map((qSet: QuestionInterface) => (
+            {...qSet,
+              correct_answer: decode(qSet.correct_answer),
+              incorrect_answers: qSet.incorrect_answers.map((oneAns : string) => decode(oneAns)),
+              question: decode(qSet.question)
+            }))
+        return setQuestions(newQuestions)})
+  
       setIsStarted(true)
-      setIsChecked(false)
-    //},500) 
     }
 
     console.log("App component rendered")
 
-    // useEffect(()=> {
-    //   fetch("https://opentdb.com/api.php?amount=5&category=9&difficulty=easy&type=multiple")
-    //     .then(response =>response.json())
-    //     .then(quiz => setQuestions(quiz.results))
-    // },[])
+    useEffect( () => setIsChecked(false)
+    ,[questions])
    
 
     return (
