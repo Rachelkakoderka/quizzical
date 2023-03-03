@@ -105,8 +105,7 @@ export default function Question( props : Props) {
     },[question])
     
   
-  console.log("Question component rendered")
-  console.log(answersElem)
+  
 
   return (
       <div className="question-block">

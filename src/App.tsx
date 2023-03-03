@@ -1,5 +1,6 @@
 import {useState, useEffect, SyntheticEvent} from 'react';
 import './App.css';
+import React from "react"
 import {QuestionInterface} from "./interfaces"
 import Question from './question';
 import { decode } from 'html-entities';
@@ -17,6 +18,7 @@ function App() {
       type:""}]);
 
   const [isChecked, setIsChecked] = useState<boolean>(false);
+  const [score, setScore] = useState<number>(0);
   
    
     
@@ -39,11 +41,18 @@ function App() {
       setIsStarted(true)
     }
 
-    console.log("App component rendered")
-
     useEffect( () => setIsChecked(false)
     ,[questions])
    
+   
+
+    // useEffect(() => {
+    //   const incorrectAns = Array.from(
+    //     document.getElementsByClassName('incorrect')
+    //   );
+    //   let score = 5 - incorrectAns.length
+    //     setScore(score)
+    // }, [isChecked]);
 
     return (
       <div className="App">
@@ -59,7 +68,9 @@ function App() {
               <button className={isChecked ? 'btn in-game hidden' : 'btn in-game '}  onClick={(e) => {
                 setIsChecked(true)}}>Check answers</button>
 
-              <p>{/* {isChecked ? "You scored: " : "" } */}</p>
+              <p> 
+                {/* {isChecked ? `You scored: ${score}`: ""}  */}
+                </p>
 
               <button className={isChecked ? 'btn after-game' : 'btn after-game hidden'} onClick={startGame}>Play again</button>  
 
