@@ -7,12 +7,14 @@ interface Props {
     data : QuestionInterface,
     isChecked:boolean,
     isStarted:boolean,
-    keyId: string
+    keyId: string,
+    updateScore: Function
 }
 
 export default function Question( props : Props) {
   const {category, correct_answer, difficulty, incorrect_answers, question,type} = props.data;
-  const {isChecked, keyId} = props;
+  const {isChecked, keyId, updateScore} = props;
+  //console.log(getScore)
 
   //State
   const [answersArr, setAnswersArr] = useState<Array<Answer>>(
@@ -29,15 +31,17 @@ export default function Question( props : Props) {
  function handleClick(e: React.MouseEvent<HTMLDivElement, MouseEvent>) : void {
     e.preventDefault();
     let {id} = e.currentTarget;
-    
+    //console.log(e.currentTarget.innerHTML)
+
     if (!isChecked) {
       setChosenAnswer(id);
-       
+      //update score
+            
       setAnswersArr(prevAnsArr => {
           let newArr =  prevAnsArr.map(
             (ansObj : Answer) => {
               if (ansObj.id === id) {
-                console.log(chosenAnswer)
+                //console.log(chosenAnswer)
                 return {...ansObj, isChosen : true}
               }else {
                 return {...ansObj, isChosen: false}
@@ -101,10 +105,14 @@ export default function Question( props : Props) {
     });
 
     useEffect(() =>{
-      setAnswersArr(generateAnswersArr())    
+      setAnswersArr(generateAnswersArr())
+      setChosenAnswer("")    
     },[question])
     
-  
+    useEffect( () => {
+      correct_answer === document.getElementById(chosenAnswer)?.innerHTML ? updateScore(1) : updateScore(0)}
+    ,[isChecked]
+    )
   
 
   return (

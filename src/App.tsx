@@ -18,13 +18,27 @@ function App() {
       type:""}]);
 
   const [isChecked, setIsChecked] = useState<boolean>(false);
+  const [playerAnsw, setPlayersAnsw] = useState<Array<string>>([])
   const [score, setScore] = useState<number>(0);
   
    
     
   const questionsElements : JSX.Element[] = questions.map((item,index) => 
-  (< Question key={`question ${index}`} keyId={`question${index}`} data={item} isChecked={isChecked} isStarted={isStarted}/>));
+  (< Question key={`question ${index}`} 
+              keyId={`question${index}`} 
+              data={item} 
+              isChecked={isChecked} 
+              isStarted={isStarted}
+              updateScore={updateScore}      
+              />));
   
+
+  function updateScore(val: number) {
+    if (val === 1){
+     setScore(prevScore => prevScore+1)
+    }
+       
+  }
 
   function startGame() {
     fetch("https://opentdb.com/api.php?amount=5&category=9&difficulty=easy&type=multiple")
@@ -41,18 +55,11 @@ function App() {
       setIsStarted(true)
     }
 
-    useEffect( () => setIsChecked(false)
+    useEffect( () =>
+    { setIsChecked(false)
+    setScore(0)}
     ,[questions])
    
-   
-
-    // useEffect(() => {
-    //   const incorrectAns = Array.from(
-    //     document.getElementsByClassName('incorrect')
-    //   );
-    //   let score = 5 - incorrectAns.length
-    //     setScore(score)
-    // }, [isChecked]);
 
     return (
     <div className="App">
@@ -71,7 +78,7 @@ function App() {
                 setIsChecked(true)}}>Check answers</button>
 
               <p> 
-                {/* {isChecked ? `You scored: ${score}`: ""}  */}
+                 {isChecked ? `Your score: ${score} / 5`: ""}
                 </p>
 
               <button className={isChecked ? 'btn after-game' : 'btn after-game hidden'} onClick={startGame}>Play again</button>  
