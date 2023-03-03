@@ -63,7 +63,7 @@ function App() {
 
     return (
     <div className="App">
-      <div className='main-container'>
+      
         
         <div className="main">
         
@@ -97,8 +97,9 @@ function App() {
 
          
           </div>
-          <p>Created by <a href='www.aleksandragalach.link' target="_blank">Aleksandra Gałach</a> 2023</p>
-      </div>
+          
+      
+      <footer>Created by <a href='www.aleksandragalach.link' target="_blank">Aleksandra Gałach</a> 2023</footer>
       </div>
     );
   }
