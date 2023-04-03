@@ -21,7 +21,9 @@ function App() {
   const [playerAnsw, setPlayersAnsw] = useState<Array<string>>([])
   const [score, setScore] = useState<number>(0);
   
-   
+  const date = new Date();
+  const currentDate = date.getFullYear(); 
+
     
   const questionsElements : JSX.Element[] = questions.map((item,index) => 
   (< Question key={`question ${index}`} 
@@ -74,20 +76,29 @@ function App() {
             {questionsElements}
             <div className='btn-box'>
               
-              <button className={isChecked ? 'btn in-game hidden' : 'btn in-game '}  onClick={(e) => {
-                setIsChecked(true)}}>Check answers</button>
+              <button className={
+                isChecked ?
+                 'btn in-game hidden' :
+                 'btn in-game '}
+                onClick={(e) => {
+                setIsChecked(true)}}>
+                Check answers</button>
 
-              <p> 
+              <p className='score'> 
                  {isChecked ? `Your score: ${score} / 5`: ""}
                 </p>
 
-              <button className={isChecked ? 'btn after-game' : 'btn after-game hidden'} onClick={startGame}>Play again</button>  
-
-          
+              <button className={
+                isChecked ?
+                 'btn after-game' :
+                 'btn after-game hidden'} 
+              onClick={startGame}>
+                Play again</button>           
             </div>
          </div>)
 
          : 
+
          (<div className='initial-board'>
           <h1>Quizzical</h1>
           <h2>Test your general knowledge!</h2>
@@ -96,11 +107,16 @@ function App() {
           } 
 
          
-          </div>
-          
-      
-      <footer>Created by <a href='www.aleksandragalach.link' target="_blank">Aleksandra Gałach</a> 2023</footer>
+        <footer>
+          <a className="portfolio-page-link"
+             href='https://www.aleksandragalach.link/' 
+             target="_blank">
+            Made by Aleksandra Gałach   
+          <div className='year'>{currentDate}</div>
+          </a>
+        </footer> 
       </div>
+    </div>
     );
   }
 
