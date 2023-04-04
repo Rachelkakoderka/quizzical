@@ -8,12 +8,21 @@ a {
 }
 
 body {
-  background-color: #6fb38d;
+  background-color: #384272;
   font-family: Karla, sans-serif;
   color: #2B283A;
   line-height: 1.15;
   margin: 0;
   padding: 0;
+}
+
+h3,
+h4 {
+  margin: 0;
+}
+
+h3 {
+  font-size: 1em;
 }
 
 .App {
@@ -23,7 +32,7 @@ body {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  min-height: 100vh;
+  height: 100vh;
 }
 
 .main {
@@ -34,25 +43,26 @@ body {
   flex-direction: column;
   justify-content: space-between;
   border-radius: 3px;
-  min-height: 95vh;
-  width: 95vw;
+  min-width: 95vw;
 }
+
+
 
 .initial-board {
   text-align: center;
+  margin-bottom: auto;
 }
 
 .game-board {
-  height: 100%;
   display: flex;
-  flex-direction: column;
- justify-content: space-evenly;
+  flex-direction: column; 
+  height: 100%;
 }
 
 .question-block {
   margin-top: .6em;
   padding-bottom: .3em;
-  border-bottom: #665f86 solid 1px;
+  /* border-bottom: #665f86 solid 1px; */
 }
 
 .question {
@@ -67,14 +77,17 @@ body {
 }
 
 .answer {
-  padding: .1em .2em;
+  padding: .3em;
   border: 0.794239px solid #4D5B9E;
   border-radius: 6px;
   text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .btn-box {
-  margin-top: .5em;
+  margin-top: auto;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
 }
@@ -84,10 +97,9 @@ body {
   background: #4D5B9E;
   border-radius: 6px;
   color: #fff;
-  padding: .2em .6em;
+  padding: .8em;
   border: none;
 }
-
 
 .after-game {
   grid-column-start: 3/4;
@@ -106,22 +118,25 @@ body {
 }
 
 .correct {
-  border-color: rgb(123, 194, 123);
-  background-color: rgb(123, 194, 123);
+  border: none;
+  background-color: #7bc27b;
   color:white;
 }
 .incorrect {
-  border-color: rgb(230, 127, 127) ;;
-  background-color: rgb(230, 127, 127) ;
+  border:none;
+  background-color: #DE5F85
+  ;
   color:white;
 }
 
 .score {
   margin: 0;
+  display: flex;
+  align-items: center;
 }
 
 footer {
-  margin-top: .6rem;
+  margin-top: 2em;
   font-size: .7em;
   display: flex;
   justify-content: space-around;
@@ -135,4 +150,15 @@ footer:focus {
 .year {
   display: inline;
   margin-left: .2em;
+}
+
+@media (min-width: 500px) {
+  .main {
+    padding: 1em 2em;
+    max-width: 800px;
+    min-width: fit-content;
+    min-height: fit-content;
+    max-height: 800px;
+    
+  }
 }

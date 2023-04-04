@@ -117,7 +117,7 @@ export default function Question( props : Props) {
 
   return (
       <div className="question-block">
-        <div className="question">{(question)} </div>
+        <h3 className="question">{(question)} </h3>
         <div className="answers-box">{ answersElem } </div>
       </div>
    )
